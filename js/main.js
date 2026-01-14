@@ -2,7 +2,7 @@
 
 const instructions1 = "Memorizza i numeri entro il tempo limite!";
 const instructions2 = "Scrivi i numeri che ricordi di aver visto!";
-const timer = 31; // 30 secondi + 1 per gestire la partenza
+const timer = 4; // 30 secondi + 1 per gestire la partenza
 const interval = 1000; // 1 secondo
 const minValue = 1;
 const maxValue = 50;
@@ -22,6 +22,7 @@ const message = document.getElementById("message");
 
 instructionsMessage.innerText = instructions1;
 
+// generazione numeri casuali
 const generatedNumbers = [];
 for (let i = 0; i < cardinality; i++) {
   let currentNumber = generateRandomNumber(minValue, maxValue);
@@ -29,9 +30,30 @@ for (let i = 0; i < cardinality; i++) {
   numbersList.innerHTML += `<li>${currentNumber}</li>`;
 }
 
+// gestione del countdown
 let countdownTimer = timer;
 handleCountdown();
 const countdownID = setInterval(handleCountdown, interval);
+
+// # INVIO DATI INSERITI
+
+anwersForm.addEventListener("submit", (e) => {
+  // preveniamo il default
+  e.preventDefault();
+
+  // acquisisco i numeri inseriti da utente
+  const inputNumbers = Array.from(inputGroup.children).map((el) =>
+    parseInt(el.value)
+  );
+
+  // filtro numeri inseriti uguali a nuumeri generati
+  const guessedNumbers = inputNumbers.filter((el) =>
+    generatedNumbers.includes(el)
+  );
+
+  // risposta in output
+  message.innerText = `Hai indovinato ${guessedNumbers.length} numeri! => ${guessedNumbers}\n\nNumeri da indovinare: ${generatedNumbers}\nNumeri inseriti: ${inputNumbers}`;
+});
 
 // # FUNZIONI
 
