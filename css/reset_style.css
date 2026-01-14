@@ -1,0 +1,53 @@
+/* :root{ */
+/* --propetry: value; */
+/* } */
+
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: 0.5s;
+} */
+
+/* body {
+  margin: 0 auto;
+}
+ */
+/* img {
+  max-width: 100%;
+  display: block;
+}
+ */
+/* button,
+input,
+textarea,
+select {
+  font: inherit;
+} */
+
+/* a {
+  text-decoration: none;
+  color: inherit;
+} */
+
+/* button {
+  background: none;
+  border: none;
+  cursor: pointer;
+} */
+
+/* ul, ol { */
+/* list-style: none; */
+/* list-style-type: none; */
+/* }  */
+
+.debug,
+.debug * {
+  border: 1px dashed red;
+}
+
+/* .container {
+  margin: 0 auto;
+  max-width: 900px;
+  padding: 0 5px;
+} */
