@@ -122,6 +122,8 @@ function generateRandomNumber(min, max) {
 }
 
 function handleCountdown() {
+  let percent = /* timer -  */ (countdownTimer * 100) / (timer - 1);
+
   if (countdownTimer > 1) {
     countdownTimer--;
     countdownNumber.innerText = countdownTimer;
@@ -131,10 +133,12 @@ function handleCountdown() {
     numbersList.classList.add("d-none");
     instructionsMessage.innerText = instructions2;
     anwersForm.classList.remove("d-none");
+    percent = 0;
   }
 
-  const percent = ((timer - countdownTimer) * 100) / (timer - 1);
   progress.style.width = `${percent}%`;
+  progress.style.marginLeft = "auto";
   progress.style.backgroundColor =
-    percent < 50 ? "green" : percent < 75 ? "orange" : "orangered";
+    percent > 75 ? "green" : percent > 50 ? "orange" : "orangered";
+  console.log(percent, countdownTimer);
 }

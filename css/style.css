@@ -26,5 +26,5 @@ input {
 .progress {
   border-radius: 25rem;
   height: 20px;
-  transition: 1s linear;
+  transition: width 1s linear, background-color 10s linear;
 }
