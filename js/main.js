@@ -2,7 +2,7 @@
 
 const instructions1 = "Memorizza i numeri entro il tempo limite!";
 const instructions2 = "Scrivi i numeri che ricordi di aver visto!";
-const timer = 4; // 30 secondi + 1 per gestire la partenza
+const timer = 31; // 30 secondi + 1 per gestire la partenza
 const interval = 1000; // 1 secondo
 const minValue = 1;
 const maxValue = 50;
