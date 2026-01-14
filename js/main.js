@@ -2,7 +2,7 @@
 
 const instructions1 = "Memorizza i numeri entro il tempo limite!";
 const instructions2 = "Scrivi i numeri che ricordi di aver visto!";
-const timer = 31; // 30 secondi + 1 per gestire la partenza
+const timer = 4; // 30 secondi + 1 per gestire la partenza
 const interval = 1000; // 1 secondo
 const minValue = 1;
 const maxValue = 50;
@@ -26,6 +26,10 @@ instructionsMessage.innerText = instructions1;
 const generatedNumbers = [];
 for (let i = 0; i < cardinality; i++) {
   let currentNumber = generateRandomNumber(minValue, maxValue);
+  // prevenzione numeri uguali. Non metto altre condizioni di uscita dal while, confidando che la generazione randomica giunga a numeri diversi in un tempo ragionevole per sua natura.
+  while (generatedNumbers.includes(currentNumber)) {
+    currentNumber = generateRandomNumber(minValue, maxValue);
+  }
   generatedNumbers.push(currentNumber);
   numbersList.innerHTML += `<li>${currentNumber}</li>`;
 }
@@ -46,13 +50,57 @@ anwersForm.addEventListener("submit", (e) => {
     parseInt(el.value)
   );
 
-  // filtro numeri inseriti uguali a nuumeri generati
-  const guessedNumbers = inputNumbers.filter((el) =>
-    generatedNumbers.includes(el)
-  );
+  //validazione input - valori
+  let isInvalid = false;
+  for (let i = 0; i < inputNumbers.length; i++) {
+    const currentNumber = inputNumbers[i];
+    if (
+      isNaN(currentNumber) ||
+      currentNumber < minValue ||
+      currentNumber > maxValue
+    ) {
+      isInvalid = true;
+      break;
+    }
+  }
 
-  // risposta in output
-  message.innerText = `Hai indovinato ${guessedNumbers.length} numeri! => ${guessedNumbers}\n\nNumeri da indovinare: ${generatedNumbers}\nNumeri inseriti: ${inputNumbers}`;
+  // validazione input - duplicati
+  let isDuplicate = false;
+  const inputNumbersAlias = Array.from(inputNumbers);
+  while (inputNumbersAlias.length > 0) {
+    const currentNumber = inputNumbersAlias.shift();
+    if (inputNumbersAlias.includes(currentNumber)) {
+      isDuplicate = true;
+      break;
+    }
+  }
+
+  // se il controllo passa vado alle fasi successive, altrimenti segnalo tramite alert la presenza di errori
+  if (!isDuplicate && !isInvalid) {
+    // filtro numeri inseriti uguali a nuumeri generati
+    const guessedNumbers = inputNumbers.filter((el) =>
+      generatedNumbers.includes(el)
+    );
+
+    // risposta in output
+    if (guessedNumbers.length > 0 && guessedNumbers.length < cardinality) {
+      message.classList = "text-warning text-center";
+    } else if (guessedNumbers.length === cardinality) {
+      message.classList = "text-success text-center";
+    } else {
+      message.classList = "text-danger text-center";
+    }
+    message.innerText = `Hai indovinato ${guessedNumbers.length}/${cardinality} numeri: (${guessedNumbers})\n\nNumeri da indovinare: (${generatedNumbers})\nNumeri inseriti: (${inputNumbers})`;
+  } else {
+    if (isInvalid) {
+      alert(
+        `🚨ATTENZIONE🚨\n\nInserimento non valido!\n\nSi accettano solo numeri interi compresi tra ${minValue} e ${maxValue}`
+      );
+    }
+    if (isDuplicate) {
+      alert("🚨ATTENZIONE🚨\n\nCi sono duplicati tra i numeri inseriti!");
+    }
+  }
 });
 
 // # FUNZIONI
