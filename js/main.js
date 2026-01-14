@@ -1,3 +1,13 @@
+// # UTILITY
+
+const instructions1 = "Memorizza i numeri entro il tempo limite!";
+const instructions2 = "Scrivi i numeri che ricordi di aver visto!";
+const timer = 4; // 30 secondi + 1 per gestire la partenza
+const interval = 1000; // 1 secondo
+const minValue = 1;
+const maxValue = 50;
+const cardinality = 5; // quanti numeri da memorizzare
+
 // # ACQUISIZIONE ELEMENTI DOM
 
 const countdownNumber = document.getElementById("countdown");
@@ -10,13 +20,18 @@ const message = document.getElementById("message");
 
 // # CARICAMENTO PAGINA
 
-for (let i = 0; i < 5; i++) {
-  numbersList.innerHTML += `<li>${generateRandomNumber(1, 50)}</li>`;
+instructionsMessage.innerText = instructions1;
+
+const generatedNumbers = [];
+for (let i = 0; i < cardinality; i++) {
+  let currentNumber = generateRandomNumber(minValue, maxValue);
+  generatedNumbers.push(currentNumber);
+  numbersList.innerHTML += `<li>${currentNumber}</li>`;
 }
 
-let countdownTimer = 31;
+let countdownTimer = timer;
 handleCountdown();
-const countdownID = setInterval(handleCountdown, 1000);
+const countdownID = setInterval(handleCountdown, interval);
 
 // # FUNZIONI
 
@@ -36,7 +51,14 @@ function generateRandomNumber(min, max) {
 }
 
 function handleCountdown() {
-  console.log(countdownTimer);
-  countdownTimer > 0 ? countdownTimer-- : clearInterval(countdownID);
-  countdownNumber.innerText = countdownTimer;
+  if (countdownTimer > 1) {
+    countdownTimer--;
+    countdownNumber.innerText = countdownTimer;
+  } else {
+    clearInterval(countdownID);
+    countdownNumber.classList.add("d-none");
+    numbersList.classList.add("d-none");
+    instructionsMessage.innerText = instructions2;
+    anwersForm.classList.remove("d-none");
+  }
 }
