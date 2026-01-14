@@ -2,7 +2,7 @@
 
 const instructions1 = "Memorizza i numeri entro il tempo limite!";
 const instructions2 = "Scrivi i numeri che ricordi di aver visto!";
-const timer = 4; // 30 secondi + 1 per gestire la partenza
+const timer = 31; // 30 secondi + 1 per gestire la partenza
 const interval = 1000; // 1 secondo
 const minValue = 1;
 const maxValue = 50;
@@ -17,6 +17,7 @@ const anwersForm = document.getElementById("answers-form");
 const inputGroup = document.getElementById("input-group");
 const buttonConfirm = document.getElementById("button-confirm");
 const message = document.getElementById("message");
+const progress = document.getElementById("progress");
 
 // # CARICAMENTO PAGINA
 
@@ -131,4 +132,9 @@ function handleCountdown() {
     instructionsMessage.innerText = instructions2;
     anwersForm.classList.remove("d-none");
   }
+
+  const percent = ((timer - countdownTimer) * 100) / (timer - 1);
+  progress.style.width = `${percent}%`;
+  progress.style.backgroundColor =
+    percent < 50 ? "green" : percent < 75 ? "orange" : "orangered";
 }
