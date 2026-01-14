@@ -28,3 +28,7 @@ input {
   height: 20px;
   transition: width 1s linear, background-color 10s linear;
 }
+
+#message {
+  font-size: 1.5rem;
+}
